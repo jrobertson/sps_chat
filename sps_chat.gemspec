@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'sps_chat'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.summary = 'A simple chat client which sends and receives messages through the SimplePubSub broker'
   s.authors = ['James Robertson']
   s.files = Dir['lib/**/*.rb']
