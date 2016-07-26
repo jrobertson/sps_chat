@@ -34,17 +34,25 @@ class SPSChat
     @pub.notice ("%s: %s" % [@topic, msg])
 
   end
-
+  
+  def typing(c)
+    
+    @pub.notice ("%s/typing: %s" % [@topic, c])
+    
+  end
+             
+  
+  
   # used by the callback routine
   #
   def ontopic(topic, msg)
-    
+
     sender = topic.split('/').last
     return if sender == @userid
     onincoming sender, msg
 
   end
-
+    
   def onincoming(sender, msg)
     
     puts "%s: %s" % [sender, msg]
