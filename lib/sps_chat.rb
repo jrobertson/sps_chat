@@ -47,13 +47,19 @@ class SPSChat
   #
   def ontopic(topic, msg)
 
-    sender = topic.split('/').last
+    typing = false
+    
+    a = topic.split('/')
+    sender = a.pop
+    (sender = a.pop; typing = true) if sender == 'typing'
+
     return if sender == @userid
-    onincoming sender, msg
+    
+    typing ? onincoming(sender, msg, true) : onincoming(sender, msg)
 
   end
     
-  def onincoming(sender, msg)
+  def onincoming(sender, msg, typing=false)
     
     puts "%s: %s" % [sender, msg]
     
