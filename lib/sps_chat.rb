@@ -2,36 +2,17 @@
 
 # file: sps_chat.rb
 
-require 'sps-pub'
-require 'sps-sub'
+require 'sps_duplex'
 
 
-class SPSChat
+class SPSChat < SPSDuplex
 
   def initialize(host: 'localhost', port: '8080', \
                   userid: 'user' + (0..1000).to_a.sample.to_s, room: '')
 
-    @userid = userid
-    
-    sps = SPSSub.new host: host, port: port, callback: self
-    puts 'connecting ...'
-    sleep 1 # give it a second to connect
-    
-    topic = ['chat']
-    topic << room if room.length > 0
-
-    Thread.new { sps.subscribe topic: (topic + ['#']).join('/') }
-
-    @pub = SPSPub.new address: host, port: port
-    
-    topic << userid
-    @topic = topic.join('/')    
-
-  end
-
-  def send(msg)
-
-    @pub.notice ("%s: %s" % [@topic, msg])
+    @userid = userid    
+    super(host: host, port: port, topic: 'chat',
+          sub_topic: '#', pub_topic: userid)
 
   end
   
@@ -40,9 +21,7 @@ class SPSChat
     @pub.notice ("%s/typing: %s" % [@topic, c])
     
   end
-             
-  
-  
+                 
   # used by the callback routine
   #
   def ontopic(topic, msg)
