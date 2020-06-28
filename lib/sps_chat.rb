@@ -8,11 +8,12 @@ require 'sps_duplex'
 class SPSChat < SPSDuplex
 
   def initialize(host: 'localhost', port: '8080', \
-                  userid: 'user' + (0..1000).to_a.sample.to_s, room: '')
+                  userid: 'user' + (0..1000).to_a.sample.to_s, room: '', \
+                 interactive: true)
 
     @userid = userid    
     super(host: host, port: port, topic: 'chat',
-          sub_topic: '#', pub_topic: userid)
+          sub_topic: '#', pub_topic: userid, interactive: interactive)
 
   end
   
